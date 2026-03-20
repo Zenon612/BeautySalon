@@ -35,7 +35,14 @@ async def list_services(
              response_model=ServiceCreate,
              status_code=status.HTTP_201_CREATED,
              summary="Создаёт новую услугу",
-             description="Нужно обладать правами администратора")
+             description="Нужно обладать правами администратора",
+             responses={
+                 201: {"description": "Услуга создана!"},
+                 422: {"description": "Ошибка валидации"},
+                 401: {"description": "Требуются права администратора"}
+             }
+)
+
 async def create_service(
         service_data: ServiceCreate,
         db: AsyncSession = Depends(get_db),
