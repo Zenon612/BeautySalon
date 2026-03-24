@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.v1.dependencies.get_db import get_db
-from app.services.auth import verify_password, create_access_token, create_refresh_token
-from schemas.user_schema import UserLogin
+from app.services.auth import verify_password, create_access_token, create_refresh_token, get_password_hash
+from schemas.user_schema import UserLogin, UserCreate, UserResponse
 from schemas.token_schema import Token
 from app.db.models.models import User
 
@@ -35,5 +35,33 @@ async def login(user_data: UserLogin, db: AsyncSession = Depends(get_db)):
 
     return {"access_token": access_token,
             "refresh_token": refresh_token,
-            "token_type": "Bearer"
+            "token_type": "bearer"
     }
+
+@router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+async def register(user_data: UserCreate, db: AsyncSession = Depends(get_db)):
+    result = await db.execute(
+        select(User).where(User.email == user_data.email)
+    )
+    existing = result.scalar_one_or_none()
+
+    if existing:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Пользователь с email {user_data.email} уже существует"
+        )
+
+    new_user = User(
+        email=user_data.email,
+        hashed_password=get_password_hash(user_data.password),
+        full_name=user_data.full_name,
+        phone=user_data.phone,
+        is_active=True,
+        is_admin=False,
+    )
+
+    db.add(new_user)
+    await db.commit()
+    await db.refresh(new_user)
+
+    return new_user
