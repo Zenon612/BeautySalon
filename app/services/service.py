@@ -14,7 +14,7 @@ async def get_active_services_paginated(
         db: AsyncSession,
         page: int = 1,
         size: int = 20,
-        category:Optional[ServiceCategory] = None
+        category:Optional[ServiceCategory] = None,
         ) -> dict:
 
     query = select(Service).where(Service.is_active == True)
@@ -60,9 +60,9 @@ async def update_service(
         db: AsyncSession,
         service_data: dict,
         service_category_id: int,
-        current_user: User = Depends(get_current_active_admin)
+        current_user: User ,
 ):
-    service = get_active_service(db, service_category_id)
+    service = await get_active_service(db, service_category_id)
 
     if not service:
         raise HTTPException(
@@ -79,7 +79,7 @@ async def update_service(
 async def create_service(
         db: AsyncSession,
         service_data: ServiceCreate,
-        current_user: User
+        current_user: User,
 ) -> Service:
     result = await db.execute(
         select(Service).where(Service.name == service_data.name)
@@ -98,3 +98,19 @@ async def create_service(
     await db.refresh(new_service)
 
     return new_service
+
+async def deactivate_service(
+        db: AsyncSession,
+        service_id: int,
+        current_user: User,
+)-> Service | None:
+    service = await get_active_service(db, service_id)
+    if not service:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Сервис не найден"
+        )
+    service.is_active = False
+    await db.commit()
+    await db.refresh(service)
+    return service
