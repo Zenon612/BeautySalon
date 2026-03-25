@@ -1,7 +1,8 @@
 from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel, ConfigDict
-from schemas.schemas import ServiceCategory, MasterResponse
+from schemas.schemas import ServiceCategory
+from schemas.master_schema import MasterResponse
 
 
 class PortfolioItemBase(BaseModel):

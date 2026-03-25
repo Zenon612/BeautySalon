@@ -11,6 +11,13 @@ class ServiceCategory(str, enum.Enum):
     FACIAL = "facial"
     SPA = "spa"
 
+class MasterSpecialty(str, enum.Enum):
+    HAIR = "hair"
+    NAILS = "nails"
+    MAKEUP = "makeup"
+    FACIAL = "facial"
+    SPA = "spa"
+
 class BookingStatus(str, enum.Enum):
     PENDING = "pending"
     CONFIRMED = "confirmed"

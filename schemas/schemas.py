@@ -20,9 +20,6 @@ class BookingStatus(str, Enum):
     COMPLETED = "completed"
     CANCELLED = "cancelled"
 
-
-
-
 class ResponseMessage(BaseModel):
     success: bool
     message: str
