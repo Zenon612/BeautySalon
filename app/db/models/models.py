@@ -18,12 +18,6 @@ class MasterSpecialty(str, enum.Enum):
     FACIAL = "facial"
     SPA = "spa"
 
-class BookingStatus(str, enum.Enum):
-    PENDING = "pending"
-    CONFIRMED = "confirmed"
-    COMPLETED = "completed"
-    CANCELLED = "cancelled"
-
 class User(Base):
     __tablename__ = "users"
 
@@ -37,7 +31,6 @@ class User(Base):
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
 
-    bookings = relationship("Booking", back_populates="user", cascade="all, delete-orphan")
     refresh_tokens = relationship("RefreshToken", back_populates="user", cascade="all, delete-orphan")
 
 
@@ -66,8 +59,6 @@ class Service(Base):
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
 
-    bookings = relationship("Booking", back_populates="service")
-
 
 class Master(Base):
     __tablename__ = "masters"
@@ -81,27 +72,7 @@ class Master(Base):
     rating = Column(Float, default=5.0)
     created_at = Column(DateTime, default = func.now())
 
-    bookings = relationship("Booking", back_populates="master")
     portfolio_items = relationship("PortfolioItem", back_populates="master")
-
-class Booking(Base):
-    __tablename__ = "bookings"
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    service_id = Column(Integer, ForeignKey("services.id"), nullable=False)
-    master_id = Column(Integer, ForeignKey("masters.id"), nullable=False)
-
-    client_name = Column(String, nullable=False)
-    client_phone = Column(String, nullable=False)
-    client_email = Column(String, nullable=False)
-
-    created_at = Column(DateTime, server_default=func.now())
-    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
-    client_comment = Column(Text)
-
-    user = relationship("User", back_populates="bookings")
-    service = relationship("Service", back_populates="bookings")
-    master = relationship("Master", back_populates="bookings")
 
 
 class PortfolioItem(Base):

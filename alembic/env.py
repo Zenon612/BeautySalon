@@ -9,7 +9,6 @@ from app.db.models.models import (
     RefreshToken,
     Service,
     Master,
-    Booking,
     PortfolioItem,
     ContactInfo,
 )

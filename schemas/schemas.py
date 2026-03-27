@@ -5,7 +5,9 @@ from typing import Generic, TypeVar
 
 T = TypeVar("T")
 
-
+"""
+Схема для пагинированного ответа.
+"""
 
 class ServiceCategory(str, Enum):
     HAIR = "hair"
@@ -13,12 +15,6 @@ class ServiceCategory(str, Enum):
     MAKEUP = "makeup"
     FACIAL = "facial"
     SPA = "spa"
-
-class BookingStatus(str, Enum):
-    PENDING = "pending"
-    CONFIRMED = "confirmed"
-    COMPLETED = "completed"
-    CANCELLED = "cancelled"
 
 class ResponseMessage(BaseModel):
     success: bool
