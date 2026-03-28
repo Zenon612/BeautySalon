@@ -3,309 +3,283 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beauty Salon - Салон Красоты</title>
-
-    <!-- Шрифты -->
+    <title>Салон красоты "Лайм" | Москва</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-    <!-- Подключение CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="#" class="logo" onclick="showPage('home')">Beauty<span>Salon</span></a>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#" onclick="showPage('home')" class="active" data-page="home">Главная</a></li>
-                <li><a href="#" onclick="showPage('portfolio')" data-page="portfolio">Портфолио</a></li>
-                <li><a href="#" onclick="showPage('contact')" data-page="contact">Контакты</a></li>
-            </ul>
-
-            <!-- Кнопки авторизации -->
-            <div class="auth-buttons" id="authButtons">
-                <button class="btn btn-secondary" onclick="showModal('loginModal')">Войти</button>
-                <button class="btn btn-primary" onclick="showModal('registerModal')">Регистрация</button>
-            </div>
-            <button id="logoutBtn" class="btn btn-secondary" style="display: none;" onclick="logout()">Выйти</button>
-
-            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="loader-logo">Лайм</div>
+            <p class="loader-text">Загрузка...</p>
         </div>
-    </nav>
+    </div>
 
-    <!-- Home Page -->
-    <section id="home" class="page-section active">
-        <!-- Hero -->
-        <div class="hero">
-            <div class="hero-container">
-                <div class="hero-content">
-                    <span class="hero-badge">ПРЕМИУМ КЛАСС</span>
-                    <h1>Ваша красота — <span>наша забота</span></h1>
-                    <p class="hero-description">
-                        Профессиональный салон красоты с индивидуальным подходом к каждому клиенту.
-                        Современные техники, премиум косметика и опытные мастера.
-                    </p>
+    <!-- Scroll Progress -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">Лайм</a>
+                <ul class="nav-links">
+                    <li><a href="#home">Главная</a></li>
+                    <li><a href="#services">Услуги</a></li>
+                    <li><a href="#portfolio">Портфолио</a></li>
+                    <li><a href="#directions">Как добраться</a></li>
+                    <li><a href="#contacts">Контакты</a></li>
+                </ul>
+                <div class="nav-buttons" id="navButtons">
+                    <button class="btn btn-outline" onclick="openModal('login')" id="loginBtn">Войти</button>
+                    <button class="btn btn-primary" onclick="openModal('register')" id="registerBtn">Регистрация</button>
+                    <button class="btn btn-outline" onclick="handleLogout()" id="logoutBtn" style="display: none;">Выйти</button>
+                    <span class="user-name" id="userName" style="display: none;"></span>
+                </div>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-particles" id="particles"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Ваша красота — <span>наше искусство</span></h1>
+                    <p>Салон красоты "Лайм" — это место, где профессионализм встречается с элегантностью. Мы создаём образы, которые вдохновляют и преображают.</p>
                     <div class="hero-buttons">
-                        <a href="#" onclick="showPage('contact')" class="btn btn-primary">
-                            Записаться онлайн
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M5 12h14M12 5l7 7-7 7"/>
-                            </svg>
-                        </a>
-                        <a href="#" onclick="showPage('portfolio')" class="btn btn-secondary">Наши работы</a>
+                        <a href="#services" class="btn btn-primary">Наши услуги</a>
+                        <a href="#contacts" class="btn btn-outline">Связаться</a>
                     </div>
                 </div>
                 <div class="hero-image">
-                    <img src="https://image.qwenlm.ai/public_source/bf7b0364-fbcc-4b04-a11e-20ea9271eb00/16ae52de6-8eb5-4881-a3fa-87167197d78b.png" alt="Салон красоты интерьер">
-                    <div class="hero-image-decoration"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- services -->
-        <div class="services">
-            <div class="section-container">
-                <div class="section-header">
-                    <p class="section-subtitle">Наши услуги</p>
-                    <h2 class="section-title">Что мы предлагаем</h2>
-                    <p class="section-description">
-                        Полный спектр beauty-услуг от профессиональных мастеров с многолетним опытом
-                    </p>
-                </div>
-                <div class="services-grid" id="servicesGrid">
-                    <!-- Услуги загружаются через JS -->
+                    <img src="https://image.qwenlm.ai/public_source/bfc718a0-0bc3-4487-87cb-3ab0898f960d/1c23056ff-74f9-42e6-b16f-5c0ee7cb56a4.png" alt="Интерьер салона Лайм">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Portfolio Page -->
-    <section id="portfolio" class="page-section">
-        <div class="portfolio">
-            <div class="section-container">
-                <div class="section-header slide-up">
-                    <p class="section-subtitle">Наши работы</p>
-                    <h2 class="section-title">Портфолио</h2>
-                    <p class="section-description">
-                        Примеры работ наших мастеров. Вдохновляйтесь и выбирайте свой стиль!
-                    </p>
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Наши услуги</h2>
+                <p>Профессиональный уход за вашими волосами</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <img src="https://image.qwenlm.ai/public_source/bfc718a0-0bc3-4487-87cb-3ab0898f960d/15885207c-678d-4fbc-bd3b-25c129b4d9f9.png" alt="Стрижки" class="service-image">
+                    <div class="service-content">
+                        <h3>Стрижки</h3>
+                        <p>Индивидуальный подбор стрижки с учётом формы лица, структуры волос и вашего стиля. Наши мастера создадут идеальный образ именно для вас.</p>
+                        <div class="service-price">
+                            <span class="price">от 1 500 ₽</span>
+                            <a href="#contacts" class="btn btn-outline">Записаться</a>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="portfolio-filters slide-up">
-                    <button class="filter-btn active" onclick="filterPortfolio('all')">Все</button>
-                    <button class="filter-btn" onclick="filterPortfolio('hair')">Прически</button>
-                    <button class="filter-btn" onclick="filterPortfolio('makeup')">Макияж</button>
-                    <button class="filter-btn" onclick="filterPortfolio('nails')">Ногти</button>
-                </div>
-
-                <div class="portfolio-grid" id="portfolioGrid">
-                    <!-- Портфолио загружается через JS -->
+                <div class="service-card">
+                    <img src="https://image.qwenlm.ai/public_source/bfc718a0-0bc3-4487-87cb-3ab0898f960d/10ae4fdd3-42a3-46d1-bf7b-aee50022cd6e.png" alt="Окрашивание" class="service-image">
+                    <div class="service-content">
+                        <h3>Окрашивание</h3>
+                        <p>Современные техники окрашивания: балаяж, шатуш, омбре, мелирование. Используем только премиальные красители для здоровья ваших волос.</p>
+                        <div class="service-price">
+                            <span class="price">от 3 000 ₽</span>
+                            <a href="#contacts" class="btn btn-outline">Записаться</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Page -->
-    <section id="contact" class="page-section">
-        <div class="contact">
-            <div class="section-container">
-                <div class="section-header">
-                    <p class="section-subtitle">Свяжитесь с нами</p>
-                    <h2 class="section-title">Контакты</h2>
-                    <p class="section-description">
-                        Ждём вас в нашем салоне! Запишитесь онлайн или позвоните нам
-                    </p>
+    <!-- Portfolio Section -->
+    <section class="portfolio" id="portfolio">
+        <div class="container">
+            <div class="section-header">
+                <h2>Портфолио</h2>
+                <p>Наши работы говорят сами за себя</p>
+            </div>
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <img src="https://image.qwenlm.ai/public_source/bfc718a0-0bc3-4487-87cb-3ab0898f960d/15885207c-678d-4fbc-bd3b-25c129b4d9f9.png" alt="Стрижка каре">
+                    <div class="portfolio-overlay">
+                        <h3>Стрижка каре</h3>
+                        <p>Классическое каре с чёлкой</p>
+                    </div>
                 </div>
+                <div class="portfolio-item">
+                    <img src="https://image.qwenlm.ai/public_source/bfc718a0-0bc3-4487-87cb-3ab0898f960d/10ae4fdd3-42a3-46d1-bf7b-aee50022cd6e.png" alt="Окрашивание балаяж">
+                    <div class="portfolio-overlay">
+                        <h3>Окрашивание балаяж</h3>
+                        <p>Плавный переход от тёмного к светлому</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                <div class="contact-container">
-                    <div class="contact-info slide-up">
-                        <h3>Информация</h3>
+    <!-- Directions Section -->
+    <section class="directions" id="directions">
+        <div class="container">
+            <div class="section-header">
+                <h2>Как до нас добраться</h2>
+                <p>Подробная инструкция, как найти наш салон</p>
+            </div>
+            <div class="directions-wrapper">
+                <div class="directions-content">
+                    <h3>Маршрут от метро</h3>
+                    <ul class="direction-steps">
+                        <li>
+                            <p>Выходите из метро <strong>Нижегородская</strong>, к <strong>выходу №7</strong></p>
+                        </li>
+                        <li>
+                            <p>Двигайтесь <strong>прямо вдоль дороги</strong></p>
+                        </li>
+                        <li>
+                            <p>Наш салон находится по адресу <strong>2-я Карачаровская 16/2</strong></p>
+                        </li>
+                        <li>
+                            <p>Салон располагается <strong>на углу здания</strong>, направо после пвз <strong>Яндекс Маркет</strong></p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="directions-image">
+                    <img src="https://image.qwenlm.ai/public_source/bfc718a0-0bc3-4487-87cb-3ab0898f960d/1c23056ff-74f9-42e6-b16f-5c0ee7cb56a4.png" alt="Салон Лайм">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacts Section -->
+    <section class="contacts" id="contacts">
+        <div class="container">
+            <div class="section-header">
+                <h2>Контакты</h2>
+                <p>Ждём вас в нашем салоне красоты</p>
+            </div>
+            <div class="contacts-wrapper">
+                <div class="contacts-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                            </svg>
+                        </div>
                         <div class="contact-details">
-                            <div class="contact-item">
-                                <div class="contact-icon">📍</div>
-                                <div>
-                                    <h4>Адрес</h4>
-                                    <p id="contactAddress">г. Москва, ул. Красоты, д. 15</p>
-                                </div>
-                            </div>
-                            <div class="contact-item">
-                                <div class="contact-icon">📞</div>
-                                <div>
-                                    <h4>Телефон</h4>
-                                    <p id="contactPhone">+7 (999) 123-45-67</p>
-                                </div>
-                            </div>
-                            <div class="contact-item">
-                                <div class="contact-icon">✉️</div>
-                                <div>
-                                    <h4>Email</h4>
-                                    <p id="contactEmail">info@beautysalon.ru</p>
-                                </div>
-                            </div>
-                            <div class="contact-item">
-                                <div class="contact-icon">🕐</div>
-                                <div>
-                                    <h4>Режим работы</h4>
-                                    <p>Пн-Вс: 10:00 - 22:00</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="social-links">
-                            <a href="#" class="social-link">📱</a>
-                            <a href="#" class="social-link">📷</a>
-                            <a href="#" class="social-link">📘</a>
-                            <a href="#" class="social-link">🎵</a>
+                            <h4>Адрес</h4>
+                            <p>г. Москва, 2-я Карачаровская улица, 16/2</p>
                         </div>
                     </div>
-
-                    <div class="contact-form slide-up">
-                        <h3>Запись на приём</h3>
-                        <div class="success-message" id="successMessage">
-                            ✅ Ваша заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                            </svg>
                         </div>
-                        <form id="bookingForm">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="name">Ваше имя</label>
-                                    <input type="text" id="name" name="name" required placeholder="Иван Иванов">
-                                </div>
-                                <div class="form-group">
-                                    <label for="phone">Телефон</label>
-                                    <input type="tel" id="phone" name="phone" required placeholder="+7 (___) ___-__-__">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" name="email" required placeholder="example@mail.ru">
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="service">Услуга</label>
-                                    <select id="service" name="service" required>
-                                        <option value="">Выберите услугу</option>
-                                        <option value="1">Стрижка и укладка</option>
-                                        <option value="2">Маникюр</option>
-                                        <option value="3">Педикюр</option>
-                                        <option value="4">Визаж</option>
-                                        <option value="5">Уход за лицом</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="date">Дата</label>
-                                    <input type="date" id="date" name="date" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="message">Комментарий</label>
-                                <textarea id="message" name="message" placeholder="Пожелания или особые требования..."></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary" style="width: 100%;">
-                                Отправить заявку
-                            </button>
-                        </form>
+                        <div class="contact-details">
+                            <h4>Телефон для записи</h4>
+                            <p><a href="tel:+79168182777">+7 (916) 818-27-77</a></p>
+                        </div>
                     </div>
                 </div>
-
-                <!-- Map -->
-                <div class="map-container slide-up" style="margin-top: 4rem;">
-                    <iframe
-                        id="mapFrame"
-                        src="https://yandex.ru/map-widget/v1/?ll=37.617635%2C55.755814&z=12"
-                        frameborder="0"
-                        allowfullscreen="true"
-                        title="Карта салона красоты">
-                    </iframe>
+                <div class="map-container">
+                    <iframe src="https://yandex.ru/map-widget/v1/?ll=37.747522%2C55.734682&z=16&pt=37.747522,55.734682" frameborder="0" allowfullscreen="true"></iframe>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-section">
-                <h4>BeautySalon</h4>
-                <p>Премиальный салон красоты с индивидуальным подходом к каждому клиенту.</p>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Лайм</h3>
+                    <p>Салон красоты, где ваша красота становится нашим искусством. Профессиональные мастера, премиальные материалы, индивидуальный подход.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Услуги</h3>
+                    <p>Стрижки<br>Окрашивание<br>Уходовые процедуры</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Контакты</h3>
+                    <p>г. Москва, 2-я Карачаровская улица, 16/2<br><a href="tel:+79168182777">+7 (916) 818-27-77</a></p>
+                </div>
             </div>
-            <div class="footer-section">
-                <h4>Услуги</h4>
-                <a href="#" onclick="showPage('home')">Стрижки</a>
-                <a href="#" onclick="showPage('home')">Маникюр</a>
-                <a href="#" onclick="showPage('home')">Визаж</a>
-                <a href="#" onclick="showPage('home')">Уход за лицом</a>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Салон красоты "Лайм". Все права защищены.</p>
             </div>
-            <div class="footer-section">
-                <h4>Контакты</h4>
-                <p>г. Москва, ул. 2-я Карачаровская, д. 16/2</p>
-                <p>+7 (916) 818-27-77</p>
-                <p>info@beautysalon.ru</p>
-            </div>
-            <div class="footer-section">
-                <h4>Соцсети</h4>
-                <a href="#">Telegram</a>
-                <a href="#">Instagram</a>
-                <a href="#">VKontakte</a>
-                <a href="#">YouTube</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 BeautySalon. Все права защищены.</p>
         </div>
     </footer>
 
-    <!-- Модальное окно входа -->
-    <div id="loginModal" class="modal">
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" onclick="scrollToTop()">↑</button>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            <button class="modal-close" onclick="closeModal('login')">&times;</button>
             <h2>Вход</h2>
-            <form id="loginForm">
+            <p class="modal-subtitle">Войдите в свой аккаунт</p>
+            <form id="loginForm" onsubmit="handleLogin(event)">
                 <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="loginEmail" name="email" required>
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" placeholder="Введите ваш email" required>
                 </div>
                 <div class="form-group">
-                    <label>Пароль</label>
-                    <input type="password" id="loginPassword" name="password" required>
+                    <label for="loginPassword">Пароль</label>
+                    <input type="password" id="loginPassword" placeholder="Введите ваш пароль" required>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Войти</button>
+                <button type="submit" class="btn btn-primary">Войти</button>
+                <div class="form-footer">
+                    Нет аккаунта? <a href="#" onclick="switchModal('login', 'register')">Зарегистрироваться</a>
+                </div>
             </form>
         </div>
     </div>
 
-    <!-- Модальное окно регистрации -->
-    <div id="registerModal" class="modal">
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('registerModal')">&times;</span>
+            <button class="modal-close" onclick="closeModal('register')">&times;</button>
             <h2>Регистрация</h2>
-            <form id="registerForm">
+            <p class="modal-subtitle">Создайте аккаунт для записи</p>
+            <form id="registerForm" onsubmit="handleRegister(event)">
                 <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="registerEmail" name="email" required>
+                    <label for="registerName">ФИО</label>
+                    <input type="text" id="registerName" placeholder="Введите ваше ФИО" required>
                 </div>
                 <div class="form-group">
-                    <label>Пароль (мин. 8 символов)</label>
-                    <input type="password" id="registerPassword" name="password" required>
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" placeholder="Введите ваш email" required>
                 </div>
                 <div class="form-group">
-                    <label>ФИО</label>
-                    <input type="text" id="registerFullName" name="fullName" required>
+                    <label for="registerPhone">Телефон</label>
+                    <input type="tel" id="registerPhone" placeholder="+7 (___) ___-__-__" required>
                 </div>
                 <div class="form-group">
-                    <label>Телефон</label>
-                    <input type="tel" id="registerPhone" name="phone">
+                    <label for="registerPassword">Пароль</label>
+                    <input type="password" id="registerPassword" placeholder="Придумайте пароль" required minlength="8">
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Зарегистрироваться</button>
+                <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                <div class="form-footer">
+                    Уже есть аккаунт? <a href="#" onclick="switchModal('register', 'login')">Войти</a>
+                </div>
             </form>
         </div>
     </div>
 
-    <!-- Подключение JavaScript -->
-    <script src="/static/js/app.js"></script>
+    <script src="/static/js/script.js"></script>
 </body>
 </html>
+
