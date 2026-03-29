@@ -30,7 +30,7 @@ async def login(user_data: UserLogin, db: AsyncSession = Depends(get_db)):
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    access_token = create_access_token(data= {"sub": user.email, "user_id": user.id})
+    access_token = create_access_token(data= {"sub": user.email, "user_id": user.id}, is_admin=user.is_admin)
     refresh_token = create_refresh_token(data= {"sub": user.email, "user_id": user.id})
 
     return {"access_token": access_token,

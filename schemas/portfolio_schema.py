@@ -40,7 +40,7 @@ class PortfolioItemResponse(PortfolioItemBase):
     """Схема ответа с информацией об элементе портфолио."""
     id: int = Field(..., description="Уникальный идентификатор элемента", examples=[1])
     created_at: datetime = Field(..., description="Дата и время создания записи", examples=["2024-02-10T12:00:00"])
-    master: Optional[MasterResponse] = Field(None, description="Информация о мастере")
+    master: Optional[MasterResponse] = Field(default=None, description="Информация о мастере")
 
     model_config = ConfigDict(
         from_attributes=True,

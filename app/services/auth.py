@@ -15,7 +15,7 @@ def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
 
 
-def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None, is_admin: bool = False):
     to_encode = data.copy()
 
     if expires_delta:
@@ -25,7 +25,9 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
 
     to_encode.update({
         "exp" : expire,
-        "type": "access"})
+        "type": "access",
+        "is_admin": is_admin
+    })
     encoded_jwt = jwt.encode(
         to_encode,
         settings.secret_key,

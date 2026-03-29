@@ -10,6 +10,7 @@ from typing import Optional
 from fastapi import HTTPException, status
 from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import joinedload
 
 from app.db.models.models import PortfolioItem, ServiceCategory, User
 from schemas.portfolio_schema import PortfolioItemCreate, PortfolioItemUpdate
@@ -30,7 +31,7 @@ async def get_portfolio_items_paginated(
     :param category: Опциональный фильтр по категории услуги
     :return: Словарь с элементами, пагинацией и общим количеством
     """
-    query = select(PortfolioItem)
+    query = select(PortfolioItem).options(joinedload(PortfolioItem.master))
     if category:
         query = query.where(PortfolioItem.category == category)
 
@@ -67,7 +68,7 @@ async def get_portfolio_item(
     :return: Объект элемента портфолио
     :raises HTTPException: Если элемент не найден (404)
     """
-    query = select(PortfolioItem).where(PortfolioItem.id == portfolio_id)
+    query = select(PortfolioItem).options(joinedload(PortfolioItem.master)).where(PortfolioItem.id == portfolio_id)
     portfolio_item = (await db.execute(query)).scalar_one_or_none()
 
     if portfolio_item:
@@ -95,8 +96,8 @@ async def create_portfolio_item(
     new_portfolio_item = PortfolioItem(**portfolio_data.model_dump())
     db.add(new_portfolio_item)
     await db.commit()
-    await db.refresh(new_portfolio_item)
-
+    await db.refresh(new_portfolio_item, attribute_names=['master'])
+    
     return new_portfolio_item
 
 
